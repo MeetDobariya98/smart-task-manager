@@ -4,6 +4,7 @@ import com.example.smart_task_manager.Dto.UserRequest;
 import com.example.smart_task_manager.Dto.UserResponse;
 import com.example.smart_task_manager.Service.UserService;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,7 +35,18 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public UserResponse getUserById(@PathVariable String id) {
-        return service.getUserById(id);
+    public ResponseEntity<UserResponse> getUser(
+            @PathVariable Long id) {
+
+        return ResponseEntity.ok(service.getUser(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(
+            @PathVariable Long id) {
+
+        service.deleteUser(id);
+
+        return ResponseEntity.ok("User Deleted Successfully");
     }
 }
