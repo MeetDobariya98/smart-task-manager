@@ -46,4 +46,21 @@ public class GlobalExceptionHandler {
 
         return errors;
     }
+
+    //Duplicate Email Exception
+    @ExceptionHandler(DuplicateEmailException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleDuplicateEmail(
+            DuplicateEmailException ex,
+            HttpServletRequest request) {
+
+        return new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.CONFLICT.value(),
+                "Duplicate Email",
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+    }
+    
 }

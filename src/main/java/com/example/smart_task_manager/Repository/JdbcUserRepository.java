@@ -1,6 +1,7 @@
 package com.example.smart_task_manager.Repository;
 
 import com.example.smart_task_manager.Dto.UserRequest;
+import com.example.smart_task_manager.Dto.UserUpdateRequest;
 import com.example.smart_task_manager.Entity.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -93,4 +94,67 @@ public class JdbcUserRepository implements UserRepository {
 
         jdbcTemplate.update(sql, id);
     }
+
+    @Override
+    public boolean existsByEmail(String email) {
+
+        String sql = """
+            SELECT COUNT(*)
+            FROM users
+            WHERE email = ?
+            """;
+
+        Integer count = jdbcTemplate.queryForObject(
+                sql,
+                Integer.class,
+                email
+        );
+
+        return count != null && count > 0;
+    }
+
+    @Override
+    public void update(Long id,
+                       UserUpdateRequest request) {
+
+        String sql = """
+            UPDATE users
+            SET name=?,
+                email=?,
+                password=?
+            WHERE id=?
+            """;
+
+        jdbcTemplate.update(
+                sql,
+
+                request.name(),
+
+                request.email(),
+
+                request.password(),
+
+                id
+        );
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+
+        String sql = """
+            SELECT COUNT(*)
+            FROM users
+            WHERE id=?
+            """;
+
+        Integer count =
+                jdbcTemplate.queryForObject(
+                        sql,
+                        Integer.class,
+                        id
+                );
+
+        return count != null && count > 0;
+    }
+
 }

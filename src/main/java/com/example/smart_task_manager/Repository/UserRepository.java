@@ -1,6 +1,7 @@
 package com.example.smart_task_manager.Repository;
 
 import com.example.smart_task_manager.Dto.UserRequest;
+import com.example.smart_task_manager.Dto.UserUpdateRequest;
 import com.example.smart_task_manager.Entity.User;
 
 import java.util.List;
@@ -19,5 +20,14 @@ public interface UserRepository {
 
     //delete user by id
     void delete(Long id);
+
+    //duplicate email exception
+    boolean existsByEmail(String email);
+
+    //update user
+    void update(Long id, UserUpdateRequest request);
+
+    //before update user chacking if they are exist
+    boolean existsById(Long id);
 
 }

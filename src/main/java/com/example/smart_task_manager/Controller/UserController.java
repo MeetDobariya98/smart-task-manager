@@ -2,6 +2,7 @@ package com.example.smart_task_manager.Controller;
 
 import com.example.smart_task_manager.Dto.UserRequest;
 import com.example.smart_task_manager.Dto.UserResponse;
+import com.example.smart_task_manager.Dto.UserUpdateRequest;
 import com.example.smart_task_manager.Service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,7 @@ public class UserController {
         return service.getUsers();
     }
 
+    //get user by id
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getUser(
             @PathVariable Long id) {
@@ -41,6 +43,7 @@ public class UserController {
         return ResponseEntity.ok(service.getUser(id));
     }
 
+    //delete user
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(
             @PathVariable Long id) {
@@ -49,4 +52,19 @@ public class UserController {
 
         return ResponseEntity.ok("User Deleted Successfully");
     }
+
+    //update user
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateUser(
+            @PathVariable Long id,
+            @Valid
+            @RequestBody UserUpdateRequest request) {
+
+        service.updateUser(id,
+                request);
+
+        return ResponseEntity.ok(
+                "User Updated Successfully");
+    }
+
 }
