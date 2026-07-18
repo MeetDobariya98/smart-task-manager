@@ -62,5 +62,20 @@ public class GlobalExceptionHandler {
                 request.getRequestURI()
         );
     }
-    
+
+    @ExceptionHandler(TaskNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleTaskNotFound(
+            TaskNotFoundException ex,
+            HttpServletRequest request) {
+
+        return new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                "Task Not Found",
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+    }
+
 }
