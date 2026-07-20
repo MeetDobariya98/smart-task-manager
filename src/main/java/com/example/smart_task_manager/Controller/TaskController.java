@@ -34,9 +34,18 @@ public class TaskController {
 
     //get task
     @GetMapping
-    public ResponseEntity<List<TaskResponse>> getTasks() {
+    public ResponseEntity<List<TaskResponse>> getTasks(
 
-        return ResponseEntity.ok(service.getTasks());
+            @RequestParam(defaultValue = "0")
+            int page,
+
+            @RequestParam(defaultValue = "5")
+            int size
+    ) {
+
+        return ResponseEntity.ok(
+                service.getTasks(page, size)
+        );
     }
 
     //get task by id
@@ -77,7 +86,7 @@ public class TaskController {
                 service.getTasksByUser(userId));
     }
 
-    //get user task status
+    //get user task by status
     @GetMapping("/status/{status}")
     public ResponseEntity<List<TaskResponse>> getTasksByStatus(
             @PathVariable Status status) {
@@ -86,12 +95,33 @@ public class TaskController {
                 service.getTasksByStatus(status));
     }
 
-    //get task priority
+    //get task by priority
     @GetMapping("/priority/{priority}")
     public ResponseEntity<List<TaskResponse>> getTasksByPriority(
             @PathVariable Priority priority) {
 
         return ResponseEntity.ok(
                 service.getTasksByPriority(priority));
+    }
+
+    //search by tittle
+    @GetMapping("/search")
+    public ResponseEntity<List<TaskResponse>> searchTask(
+
+            @RequestParam String keyword
+    ) {
+
+        return ResponseEntity.ok(
+                service.searchTasks(keyword)
+        );
+    }
+
+    //sorting task
+    @GetMapping("/sort")
+    public ResponseEntity<List<TaskResponse>> sortTasks() {
+
+        return ResponseEntity.ok(
+                service.sortTasks()
+        );
     }
 }

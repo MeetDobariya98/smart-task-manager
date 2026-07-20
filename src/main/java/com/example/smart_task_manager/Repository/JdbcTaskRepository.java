@@ -194,4 +194,59 @@ public class JdbcTaskRepository implements TaskRepository {
         );
     }
 
+    //get page wise
+    @Override
+    public List<Task> findAll(int page, int size) {
+
+        int offset = page * size;
+
+        String sql = """
+            SELECT *
+            FROM tasks
+            LIMIT ?
+            OFFSET ?
+            """;
+
+        return jdbcTemplate.query(
+                sql,
+                taskRowMapper,
+                size,
+                offset
+        );
+    }
+
+    //get task by searching task title
+    @Override
+    public List<Task> searchByTitle(String keyword) {
+
+        String sql = """
+            SELECT *
+            FROM tasks
+            WHERE LOWER(title)
+            LIKE LOWER(?)
+            """;
+
+        return jdbcTemplate.query(
+                sql,
+                taskRowMapper,
+                "%" + keyword + "%"
+        );
+    }
+
+    //sorting task
+    @Override
+    public List<Task> sortByDueDate() {
+
+        String sql = """
+            SELECT *
+            FROM tasks
+            ORDER BY due_date ASC
+            """;
+
+        return jdbcTemplate.query(
+                sql,
+                taskRowMapper
+        );
+    }
+
 }

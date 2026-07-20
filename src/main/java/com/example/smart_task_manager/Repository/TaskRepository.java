@@ -35,4 +35,12 @@ public interface TaskRepository {
 
     //find user by priority
     List<Task> findByPriority(Priority priority);
+
+    //
+    List<Task> findAll(int page, int size);
+
+    List<Task> searchByTitle(String keyword);
+
+    //sorting
+    List<Task> sortByDueDate();
 }

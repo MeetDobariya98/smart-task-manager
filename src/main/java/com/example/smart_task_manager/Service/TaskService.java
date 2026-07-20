@@ -5,6 +5,9 @@ import com.example.smart_task_manager.Dto.TaskResponse;
 import com.example.smart_task_manager.Dto.TaskUpdateRequest;
 import com.example.smart_task_manager.Entity.Priority;
 import com.example.smart_task_manager.Entity.Status;
+import com.example.smart_task_manager.Repository.AuditRepository;
+import com.example.smart_task_manager.Repository.TaskRepository;
+import com.example.smart_task_manager.Repository.UserRepository;
 
 import java.util.List;
 
@@ -34,4 +37,16 @@ public interface TaskService {
 
     //find by priority
     List<TaskResponse> getTasksByPriority(Priority priority);
+
+    //get task page wise
+    List<TaskResponse> getTasks(
+            int page,
+            int size
+    );
+
+    //get task by searching title
+    List<TaskResponse> searchTasks(String keyword);
+
+    //sorting task
+    List<TaskResponse> sortTasks();
 }

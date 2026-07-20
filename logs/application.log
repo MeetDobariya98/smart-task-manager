@@ -1,0 +1,44 @@
+2026-07-20T18:13:20.245+05:30  INFO 2772 --- [smart-task-manager] [restartedMain] c.e.s.SmartTaskManagerApplication        : Starting SmartTaskManagerApplication using Java 22.0.1 with PID 2772 (D:\javafullstack\smart-task-manager\target\classes started by meetd in D:\javafullstack\smart-task-manager)
+2026-07-20T18:13:20.254+05:30 DEBUG 2772 --- [smart-task-manager] [restartedMain] c.e.s.SmartTaskManagerApplication        : Running with Spring Boot v4.1.0, Spring v7.0.8
+2026-07-20T18:13:20.257+05:30  INFO 2772 --- [smart-task-manager] [restartedMain] c.e.s.SmartTaskManagerApplication        : No active profile set, falling back to 1 default profile: "default"
+2026-07-20T18:13:20.538+05:30  INFO 2772 --- [smart-task-manager] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-07-20T18:13:20.540+05:30  INFO 2772 --- [smart-task-manager] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-07-20T18:13:24.393+05:30  INFO 2772 --- [smart-task-manager] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2026-07-20T18:13:24.476+05:30  INFO 2772 --- [smart-task-manager] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 55 ms. Found 0 JDBC repository interfaces.
+2026-07-20T18:13:27.516+05:30  INFO 2772 --- [smart-task-manager] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-07-20T18:13:27.580+05:30  INFO 2772 --- [smart-task-manager] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-07-20T18:13:27.581+05:30  INFO 2772 --- [smart-task-manager] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.22]
+2026-07-20T18:13:27.829+05:30  INFO 2772 --- [smart-task-manager] [restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 7283 ms
+2026-07-20T18:13:30.267+05:30  WARN 2772 --- [smart-task-manager] [restartedMain] .s.a.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: aeb8913e-a4cc-41b2-b529-7b6d375eb82c
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-07-20T18:13:30.329+05:30  INFO 2772 --- [smart-task-manager] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-07-20T18:13:32.342+05:30  INFO 2772 --- [smart-task-manager] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-07-20T18:13:33.167+05:30  INFO 2772 --- [smart-task-manager] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5a565587
+2026-07-20T18:13:33.174+05:30  INFO 2772 --- [smart-task-manager] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-07-20T18:13:34.351+05:30  INFO 2772 --- [smart-task-manager] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-07-20T18:13:34.373+05:30  INFO 2772 --- [smart-task-manager] [restartedMain] c.e.s.SmartTaskManagerApplication        : Started SmartTaskManagerApplication in 16.827 seconds (process running for 18.526)
+2026-07-20T18:14:54.141+05:30  INFO 2772 --- [smart-task-manager] [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-07-20T18:14:54.142+05:30  INFO 2772 --- [smart-task-manager] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-07-20T18:14:54.148+05:30  INFO 2772 --- [smart-task-manager] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 5 ms
+2026-07-20T18:14:54.833+05:30 DEBUG 2772 --- [smart-task-manager] [http-nio-8080-exec-2] c.e.s.Service.TaskServiceImpl            : Checking user with id: 4
+2026-07-20T18:14:54.920+05:30  INFO 2772 --- [smart-task-manager] [http-nio-8080-exec-2] c.e.s.Service.TaskServiceImpl            : Creating task with title: Start Frontend
+2026-07-20T18:14:54.987+05:30  INFO 2772 --- [smart-task-manager] [http-nio-8080-exec-2] c.e.s.Service.TaskServiceImpl            : Task created successfully
+2026-07-20T18:15:44.975+05:30 DEBUG 2772 --- [smart-task-manager] [http-nio-8080-exec-3] c.e.s.Service.TaskServiceImpl            : Checking user with id: 5
+2026-07-20T18:15:44.978+05:30  INFO 2772 --- [smart-task-manager] [http-nio-8080-exec-3] c.e.s.Service.TaskServiceImpl            : Creating task with title: Start Frontend
+2026-07-20T18:15:44.983+05:30  INFO 2772 --- [smart-task-manager] [http-nio-8080-exec-3] c.e.s.Service.TaskServiceImpl            : Task created successfully
+2026-07-20T18:18:13.577+05:30  WARN 2772 --- [smart-task-manager] [http-nio-8080-exec-6] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Method parameter 'id': Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "8,9,10,11"]
+2026-07-20T18:18:39.004+05:30  INFO 2772 --- [smart-task-manager] [http-nio-8080-exec-8] c.e.s.Service.TaskServiceImpl            : Deleting task with id: 8
+2026-07-20T18:18:39.359+05:30  INFO 2772 --- [smart-task-manager] [http-nio-8080-exec-8] c.e.s.Service.TaskServiceImpl            : Task deleted successfully
+2026-07-20T18:18:46.211+05:30  INFO 2772 --- [smart-task-manager] [http-nio-8080-exec-9] c.e.s.Service.TaskServiceImpl            : Deleting task with id: 9
+2026-07-20T18:18:46.228+05:30  INFO 2772 --- [smart-task-manager] [http-nio-8080-exec-9] c.e.s.Service.TaskServiceImpl            : Task deleted successfully
+2026-07-20T18:18:52.311+05:30  INFO 2772 --- [smart-task-manager] [http-nio-8080-exec-10] c.e.s.Service.TaskServiceImpl            : Deleting task with id: 10
+2026-07-20T18:18:52.320+05:30  INFO 2772 --- [smart-task-manager] [http-nio-8080-exec-10] c.e.s.Service.TaskServiceImpl            : Task deleted successfully
+2026-07-20T18:19:07.974+05:30  INFO 2772 --- [smart-task-manager] [http-nio-8080-exec-1] c.e.s.Service.TaskServiceImpl            : Deleting task with id: 11
+2026-07-20T18:19:07.993+05:30  INFO 2772 --- [smart-task-manager] [http-nio-8080-exec-1] c.e.s.Service.TaskServiceImpl            : Task deleted successfully
+2026-07-20T18:25:14.850+05:30 DEBUG 2772 --- [smart-task-manager] [http-nio-8080-exec-4] c.e.s.Service.TaskServiceImpl            : Checking user with id: 2
+2026-07-20T18:25:14.926+05:30  INFO 2772 --- [smart-task-manager] [http-nio-8080-exec-4] c.e.s.Service.TaskServiceImpl            : Creating task with title: learn authentication
+2026-07-20T18:25:14.955+05:30  INFO 2772 --- [smart-task-manager] [http-nio-8080-exec-4] c.e.s.Service.TaskServiceImpl            : Task created successfully
