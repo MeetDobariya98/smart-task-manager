@@ -2,12 +2,22 @@ package com.example.smart_task_manager;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
+@EnableScheduling
 public class SmartTaskManagerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SmartTaskManagerApplication.class, args);
+		SpringApplication.run(
+				SmartTaskManagerApplication.class,
+				args
+		);
 	}
-
 }
+
+
+
+
+
+

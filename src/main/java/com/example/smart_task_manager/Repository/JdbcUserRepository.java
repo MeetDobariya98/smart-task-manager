@@ -157,4 +157,35 @@ public class JdbcUserRepository implements UserRepository {
         return count != null && count > 0;
     }
 
+    @Override
+    public Optional<User> findByEmail(String email) {
+
+        String sql = """
+            SELECT *
+            FROM users
+            WHERE email = ?
+            """;
+
+        List<User> users = jdbcTemplate.query(
+                sql,
+                (rs, rowNum) -> {
+
+                    User user = new User();
+
+                    user.setId(rs.getLong("id"));
+                    user.setName(rs.getString("name"));
+                    user.setEmail(rs.getString("email"));
+                    user.setPassword(rs.getString("password"));
+                    user.setCreatedAt(
+                            rs.getTimestamp("created_at").toLocalDateTime()
+                    );
+
+                    return user;
+                },
+                email
+        );
+
+        return users.stream().findFirst();
+    }
+
 }

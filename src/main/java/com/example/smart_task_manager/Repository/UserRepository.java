@@ -30,4 +30,5 @@ public interface UserRepository {
     //before update user chacking if they are exist
     boolean existsById(Long id);
 
+    Optional<User> findByEmail(String email);
 }

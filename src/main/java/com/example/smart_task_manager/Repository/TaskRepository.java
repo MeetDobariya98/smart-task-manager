@@ -43,4 +43,7 @@ public interface TaskRepository {
 
     //sorting
     List<Task> sortByDueDate();
+
+    //find overdue task
+    List<Task> findOverdueTasks();
 }

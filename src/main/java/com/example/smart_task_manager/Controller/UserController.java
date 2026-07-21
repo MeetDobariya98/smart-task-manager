@@ -67,4 +67,10 @@ public class UserController {
                 "User Updated Successfully");
     }
 
+    @GetMapping("/admin")
+    public String admin() {
+
+        return "Admin Page";
+    }
+
 }

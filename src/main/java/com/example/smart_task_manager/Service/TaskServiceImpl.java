@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -24,18 +25,30 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository repository;
     private final UserRepository userRepository;
     private final AuditRepository auditRepository;
+    private final ExecutorService executorService;
+    private final EmailService emailService;
 
     private static final Logger logger =
             LoggerFactory.getLogger(TaskServiceImpl.class);
 
     public TaskServiceImpl(
+
             TaskRepository repository,
+
             UserRepository userRepository,
-            AuditRepository auditRepository) {
+
+            AuditRepository auditRepository,
+
+            ExecutorService executorService,
+
+            EmailService emailService
+    ) {
 
         this.repository = repository;
         this.userRepository = userRepository;
         this.auditRepository = auditRepository;
+        this.executorService = executorService;
+        this.emailService = emailService;
     }
 
 
@@ -58,6 +71,12 @@ public class TaskServiceImpl implements TaskService {
         repository.save(request);
 
         auditRepository.save("Task Created : " + request.title());
+
+        executorService.submit(() -> {
+
+            emailService.sendEmail("meet@gmail.com");
+
+        });
 
         logger.info("Task created successfully");
     }

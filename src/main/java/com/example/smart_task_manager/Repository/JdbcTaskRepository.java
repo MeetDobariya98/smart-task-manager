@@ -249,4 +249,21 @@ public class JdbcTaskRepository implements TaskRepository {
         );
     }
 
+    //find overdue task
+    @Override
+    public List<Task> findOverdueTasks() {
+
+        String sql = """
+            SELECT *
+            FROM tasks
+            WHERE due_date < CURRENT_DATE
+            AND status != 'COMPLETED'
+            """;
+
+        return jdbcTemplate.query(
+                sql,
+                taskRowMapper
+        );
+    }
+
 }
