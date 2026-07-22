@@ -30,13 +30,10 @@ public class CustomUserDetailsService
                                 "User not found"));
 
         return org.springframework.security.core.userdetails.User
-
-                .withUsername(user.getEmail())
-
+                .builder()
+                .username(user.getEmail())
                 .password(user.getPassword())
-
-                .roles("USER")
-
+                .authorities(user.getRole().name())
                 .build();
     }
 }

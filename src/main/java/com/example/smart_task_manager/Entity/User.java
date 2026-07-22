@@ -14,7 +14,13 @@ public class User {
 
         private LocalDateTime createdAt;
 
-        public User() {
+        private Role role;
+
+    public User(Role role) {
+        this.role = role;
+    }
+
+    public User() {
         }
 
         public User(Long id, String name, String email, String password, LocalDateTime createdAt) {
@@ -64,5 +70,13 @@ public class User {
         public void setCreatedAt(LocalDateTime createdAt) {
             this.createdAt = createdAt;
         }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }
 

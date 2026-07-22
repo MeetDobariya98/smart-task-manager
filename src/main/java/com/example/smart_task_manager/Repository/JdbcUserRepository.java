@@ -2,6 +2,7 @@ package com.example.smart_task_manager.Repository;
 
 import com.example.smart_task_manager.Dto.UserRequest;
 import com.example.smart_task_manager.Dto.UserUpdateRequest;
+import com.example.smart_task_manager.Entity.Role;
 import com.example.smart_task_manager.Entity.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -22,15 +23,18 @@ public class JdbcUserRepository implements UserRepository {
     public void save(UserRequest request) {
 
         String sql = """
-                INSERT INTO users(name,email,password)
-                VALUES(?,?,?)
+                INSERT INTO users
+                (name,email,password,role)
+                VALUES
+                (?,?,?,?)
                 """;
 
         jdbcTemplate.update(
                 sql,
                 request.name(),
                 request.email(),
-                request.password()
+                request.password(),
+                Role.ROLE_USER.name()
         );
     }
 
@@ -38,10 +42,9 @@ public class JdbcUserRepository implements UserRepository {
     public List<User> findAll() {
 
         String sql = """
-                SELECT *
-                FROM users
-                ORDER BY id
-                """;
+            SELECT *
+            FROM users
+            """;
 
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
 
@@ -51,11 +54,15 @@ public class JdbcUserRepository implements UserRepository {
             user.setName(rs.getString("name"));
             user.setEmail(rs.getString("email"));
             user.setPassword(rs.getString("password"));
-            user.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+            user.setRole(
+                    Role.valueOf(rs.getString("role"))
+            );
+            user.setCreatedAt(
+                    rs.getTimestamp("created_at").toLocalDateTime()
+            );
 
             return user;
         });
-
     }
     
     @Override
@@ -76,6 +83,9 @@ public class JdbcUserRepository implements UserRepository {
                     user.setName(rs.getString("name"));
                     user.setEmail(rs.getString("email"));
                     user.setPassword(rs.getString("password"));
+                    user.setRole(
+                            Role.valueOf(
+                                    rs.getString("role")));
                     user.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
 
                     return user;
@@ -161,27 +171,37 @@ public class JdbcUserRepository implements UserRepository {
     public Optional<User> findByEmail(String email) {
 
         String sql = """
-            SELECT *
-            FROM users
-            WHERE email = ?
-            """;
+        SELECT *
+        FROM users
+        WHERE email=?
+        """;
 
         List<User> users = jdbcTemplate.query(
-                sql,
-                (rs, rowNum) -> {
 
-                    User user = new User();
+                sql,
+
+                (rs,rowNum)->{
+
+                    User user=new User();
 
                     user.setId(rs.getLong("id"));
                     user.setName(rs.getString("name"));
                     user.setEmail(rs.getString("email"));
                     user.setPassword(rs.getString("password"));
                     user.setCreatedAt(
-                            rs.getTimestamp("created_at").toLocalDateTime()
+                            rs.getTimestamp("created_at")
+                                    .toLocalDateTime());
+
+                    user.setRole(
+                            Role.valueOf(
+                                    rs.getString("role")
+                            )
                     );
 
                     return user;
+
                 },
+
                 email
         );
 

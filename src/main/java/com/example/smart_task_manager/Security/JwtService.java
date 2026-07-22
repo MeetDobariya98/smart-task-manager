@@ -32,10 +32,10 @@ public class JwtService {
         );
     }
 
-    public String generateToken(String email) {
+    public String generateToken(UserDetails userDetails){
 
         return Jwts.builder()
-                .subject(email)
+                .subject(userDetails.getUsername())
                 .issuedAt(new Date())
                 .expiration(new Date(
                         System.currentTimeMillis() + accessTokenExpiration                ))

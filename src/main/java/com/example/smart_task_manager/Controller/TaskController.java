@@ -8,6 +8,7 @@ import com.example.smart_task_manager.Entity.Status;
 import com.example.smart_task_manager.Service.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class TaskController {
 
     //create task
     @PostMapping
+    @PreAuthorize("hasAnyRole('USER','MANAGER','ADMIN')")
     public ResponseEntity<String> createTask(
             @Valid @RequestBody TaskRequest request) {
 
@@ -34,6 +36,7 @@ public class TaskController {
 
     //get task
     @GetMapping
+    @PreAuthorize("hasAnyRole('USER','MANAGER','ADMIN')")
     public ResponseEntity<List<TaskResponse>> getTasks(
 
             @RequestParam(defaultValue = "0")
@@ -50,6 +53,7 @@ public class TaskController {
 
     //get task by id
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('USER','MANAGER','ADMIN')")
     public ResponseEntity<TaskResponse> getTask(
             @PathVariable Long id) {
 
@@ -58,6 +62,7 @@ public class TaskController {
 
     //update task
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('USER','MANAGER','ADMIN')")
     public ResponseEntity<String> updateTask(
             @PathVariable Long id,
             @Valid @RequestBody TaskUpdateRequest request) {
@@ -69,6 +74,7 @@ public class TaskController {
 
     //delete task
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
     public ResponseEntity<String> deleteTask(
             @PathVariable Long id) {
 
@@ -79,6 +85,7 @@ public class TaskController {
 
     //get user task by id
     @GetMapping("/user/{userId}")
+    @PreAuthorize("hasAnyRole('USER','MANAGER','ADMIN')")
     public ResponseEntity<List<TaskResponse>> getUserTasks(
             @PathVariable Long userId) {
 
@@ -97,6 +104,7 @@ public class TaskController {
 
     //get task by priority
     @GetMapping("/priority/{priority}")
+    @PreAuthorize("hasAnyRole('USER','MANAGER','ADMIN')")
     public ResponseEntity<List<TaskResponse>> getTasksByPriority(
             @PathVariable Priority priority) {
 
@@ -105,6 +113,7 @@ public class TaskController {
     }
 
     //search by tittle
+    @PreAuthorize("hasAnyRole('USER','MANAGER','ADMIN')")
     @GetMapping("/search")
     public ResponseEntity<List<TaskResponse>> searchTask(
 
@@ -118,6 +127,7 @@ public class TaskController {
 
     //sorting task
     @GetMapping("/sort")
+    @PreAuthorize("hasAnyRole('USER','MANAGER','ADMIN')")
     public ResponseEntity<List<TaskResponse>> sortTasks() {
 
         return ResponseEntity.ok(

@@ -6,6 +6,7 @@ import com.example.smart_task_manager.Dto.UserUpdateRequest;
 import com.example.smart_task_manager.Service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,23 +21,16 @@ public class UserController {
         this.service = service;
     }
 
-    //Create User
-    @PostMapping
-    public String createUser(@Valid @RequestBody UserRequest request) {
-
-        service.createUser(request);
-
-        return "User Created Successfully";
-    }
-
     //Get User
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public List<UserResponse> getUsers() {
         return service.getUsers();
     }
 
     //get user by id
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('USER','MANAGER','ADMIN')")
     public ResponseEntity<UserResponse> getUser(
             @PathVariable Long id) {
 
@@ -45,6 +39,7 @@ public class UserController {
 
     //delete user
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteUser(
             @PathVariable Long id) {
 
@@ -55,6 +50,7 @@ public class UserController {
 
     //update user
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<String> updateUser(
             @PathVariable Long id,
             @Valid
@@ -68,6 +64,7 @@ public class UserController {
     }
 
     @GetMapping("/admin")
+    @PreAuthorize("hasRole('ADMIN')")
     public String admin() {
 
         return "Admin Page";
