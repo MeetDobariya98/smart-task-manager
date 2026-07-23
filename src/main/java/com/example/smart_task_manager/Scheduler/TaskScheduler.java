@@ -23,7 +23,7 @@ public class TaskScheduler {
     private static final Logger logger =
             LoggerFactory.getLogger(TaskScheduler.class);
 
-    @Scheduled(fixedRate = 30000)
+    @Scheduled(cron = "0 0 10 * * *", zone = "Asia/Kolkata")
     public void checkTasks() {
 
         logger.info("Checking overdue tasks...");

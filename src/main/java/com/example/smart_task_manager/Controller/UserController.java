@@ -5,12 +5,14 @@ import com.example.smart_task_manager.Dto.UserResponse;
 import com.example.smart_task_manager.Dto.UserUpdateRequest;
 import com.example.smart_task_manager.Service.UserService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -43,7 +45,11 @@ public class UserController {
     public ResponseEntity<String> deleteUser(
             @PathVariable Long id) {
 
+        log.info("Delete user request received for user id: {}", id);
+
         service.deleteUser(id);
+
+        log.info("User deleted successfully. User id: {}", id);
 
         return ResponseEntity.ok("User Deleted Successfully");
     }
@@ -56,8 +62,12 @@ public class UserController {
             @Valid
             @RequestBody UserUpdateRequest request) {
 
+        log.info("Update request received for user id: {}", id);
+
         service.updateUser(id,
                 request);
+
+        log.info("User updated successfully. User id: {}", id);
 
         return ResponseEntity.ok(
                 "User Updated Successfully");

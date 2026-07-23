@@ -7,12 +7,14 @@ import com.example.smart_task_manager.Entity.Priority;
 import com.example.smart_task_manager.Entity.Status;
 import com.example.smart_task_manager.Service.TaskService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
@@ -29,7 +31,11 @@ public class TaskController {
     public ResponseEntity<String> createTask(
             @Valid @RequestBody TaskRequest request) {
 
+        log.info("Create task request received for user id: {}", request.userId());
+
         service.createTask(request);
+
+        log.info("Task created successfully for user id: {}", request.userId());
 
         return ResponseEntity.ok("Task Created Successfully");
     }
@@ -67,7 +73,11 @@ public class TaskController {
             @PathVariable Long id,
             @Valid @RequestBody TaskUpdateRequest request) {
 
+        log.info("Update task request received. Task id: {}", id);
+
         service.updateTask(id, request);
+
+        log.info("Task updated successfully for user id: {}", id);
 
         return ResponseEntity.ok("Task Updated Successfully");
     }
@@ -78,7 +88,11 @@ public class TaskController {
     public ResponseEntity<String> deleteTask(
             @PathVariable Long id) {
 
+        log.info("Delete task request received. Task id: {}", id);
+
         service.deleteTask(id);
+
+        log.info("Task deleted successfully. Task id: {}", id);
 
         return ResponseEntity.ok("Task Deleted Successfully");
     }

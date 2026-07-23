@@ -2,6 +2,7 @@ package com.example.smart_task_manager.Exception;
 
 import com.example.smart_task_manager.Dto.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -24,7 +26,8 @@ public class GlobalExceptionHandler {
             UserNotFoundException ex,
             HttpServletRequest request) {
 
-        logger.error("User not found: {}", ex.getMessage());
+        logger.warn("User not found: {}", ex.getMessage());
+
         return new ErrorResponse(
                 LocalDateTime.now(),
                 HttpStatus.NOT_FOUND.value(),
@@ -39,6 +42,8 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, String> handleValidationErrors(
             MethodArgumentNotValidException ex) {
+
+        log.warn("Validation failed: {}", ex.getMessage());
 
         Map<String, String> errors = new HashMap<>();
 
@@ -60,7 +65,8 @@ public class GlobalExceptionHandler {
             DuplicateEmailException ex,
             HttpServletRequest request) {
 
-        logger.error("Duplicate email: {}", ex.getMessage());
+        logger.warn("Duplicate email: {}", ex.getMessage());
+
         return new ErrorResponse(
                 LocalDateTime.now(),
                 HttpStatus.CONFLICT.value(),
@@ -76,7 +82,8 @@ public class GlobalExceptionHandler {
             TaskNotFoundException ex,
             HttpServletRequest request) {
 
-        logger.error("Task not found: {}", ex.getMessage());
+        logger.warn("Task not found: {}", ex.getMessage());
+
         return new ErrorResponse(
                 LocalDateTime.now(),
                 HttpStatus.NOT_FOUND.value(),
