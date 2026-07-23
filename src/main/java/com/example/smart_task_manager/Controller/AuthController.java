@@ -5,6 +5,7 @@ import com.example.smart_task_manager.Dto.LoginResponse;
 import com.example.smart_task_manager.Dto.UserRequest;
 import com.example.smart_task_manager.Security.JwtService;
 import com.example.smart_task_manager.Service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,6 +34,10 @@ public class AuthController {
         this.userService = userService;
     }
 
+    @Operation(
+            summary = "Register a new user",
+            description = "Creates a new user account with ROLE_USER."
+    )
     @PostMapping("/register")
     public ResponseEntity<String> register(
             @RequestBody @Valid UserRequest request) {
@@ -44,6 +49,10 @@ public class AuthController {
         );
     }
 
+    @Operation(
+            summary = "Login User",
+            description = "Authenticates the user and returns a JWT token."
+    )
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(
             @RequestBody LoginRequest request) {
