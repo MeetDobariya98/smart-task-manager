@@ -23,4 +23,7 @@ public interface UserService {
     //update user
     void updateUser(Long id,
                     UserUpdateRequest request);
+
+    //get user by email
+    UserResponse getUserByEmail(String email);
 }

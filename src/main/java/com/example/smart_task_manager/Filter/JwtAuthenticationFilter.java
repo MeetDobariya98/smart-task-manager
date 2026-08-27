@@ -60,37 +60,38 @@ public class JwtAuthenticationFilter
             return;
         }
 
-        String token = authHeader.substring(7);
+        try {
+            String token = authHeader.substring(7);
 
-        System.out.println("TOKEN = " + token);
+            String username = jwtService.extractUsername(token);
 
-        String username = jwtService.extractUsername(token);
+            if (username != null &&
+                    SecurityContextHolder.getContext().getAuthentication() == null) {
 
-        System.out.println("USERNAME = " + username);
+                UserDetails userDetails =
+                        userDetailsService.loadUserByUsername(username);
 
-        if (username != null &&
-                SecurityContextHolder.getContext().getAuthentication() == null) {
+                if (jwtService.isTokenValid(token, userDetails)) {
 
-            UserDetails userDetails =
-                    userDetailsService.loadUserByUsername(username);
+                    UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(
+                                    userDetails,
+                                    null,
+                                    userDetails.getAuthorities()
+                            );
 
-            if (jwtService.isTokenValid(token, userDetails)) {
+                    authentication.setDetails(
+                            new WebAuthenticationDetailsSource()
+                                    .buildDetails(request)
+                    );
 
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails,
-                                null,
-                                userDetails.getAuthorities()
-                        );
-
-                authentication.setDetails(
-                        new WebAuthenticationDetailsSource()
-                                .buildDetails(request)
-                );
-
-                SecurityContextHolder.getContext()
-                        .setAuthentication(authentication);
+                    SecurityContextHolder.getContext()
+                            .setAuthentication(authentication);
+                }
             }
+        } catch (Exception e) {
+            // Token expired or invalid signature - proceed filter chain unauthenticated
+            System.out.println("JWT Validation Error: " + e.getMessage());
         }
 
         filterChain.doFilter(request, response);

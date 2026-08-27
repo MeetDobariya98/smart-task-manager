@@ -19,6 +19,8 @@ public class Task {
 
     private Long userId;
 
+    private String userEmail;
+
     private LocalDateTime createdAt;
 
     public Task() {}
@@ -89,6 +91,14 @@ public class Task {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public LocalDateTime getCreatedAt() {

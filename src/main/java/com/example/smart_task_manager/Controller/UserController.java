@@ -25,9 +25,17 @@ public class UserController {
 
     //Get User
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
     public List<UserResponse> getUsers() {
         return service.getUsers();
+    }
+
+    //Get current logged-in user profile
+    @GetMapping("/me")
+    @PreAuthorize("hasAnyRole('USER','MANAGER','ADMIN')")
+    public ResponseEntity<UserResponse> getCurrentUser(org.springframework.security.core.Authentication authentication) {
+        String email = authentication.getName();
+        return ResponseEntity.ok(service.getUserByEmail(email));
     }
 
     //get user by id

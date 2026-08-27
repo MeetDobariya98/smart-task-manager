@@ -86,14 +86,7 @@ public class TaskServiceImpl implements TaskService {
 
         return repository.findAll()
                 .stream()
-                .map(task -> new TaskResponse(
-                        task.getId(),
-                        task.getTitle(),
-                        task.getDescription(),
-                        task.getPriority(),
-                        task.getStatus(),
-                        task.getDueDate()
-                ))
+                .map(this::convert)
                 .toList();
     }
 
@@ -147,7 +140,9 @@ public class TaskServiceImpl implements TaskService {
                 task.getDescription(),
                 task.getPriority(),
                 task.getStatus(),
-                task.getDueDate()
+                task.getDueDate(),
+                task.getUserId(),
+                task.getUserEmail()
         );
     }
 

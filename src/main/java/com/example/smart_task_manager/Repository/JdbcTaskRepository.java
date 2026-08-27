@@ -40,13 +40,20 @@ public class JdbcTaskRepository implements TaskRepository {
                         rs.getString("status")
                 ));
 
-        task.setDueDate(rs.getDate("due_date").toLocalDate());
+        if (rs.getDate("due_date") != null) {
+            task.setDueDate(rs.getDate("due_date").toLocalDate());
+        }
 
         task.setUserId(rs.getLong("user_id"));
 
-        task.setCreatedAt(
-                rs.getTimestamp("created_at")
-                        .toLocalDateTime());
+        if (rs.getTimestamp("created_at") != null) {
+            task.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+        }
+
+        try {
+            task.setUserEmail(rs.getString("user_email"));
+        } catch (Exception ignored) {
+        }
 
         return task;
     };
@@ -80,9 +87,10 @@ public class JdbcTaskRepository implements TaskRepository {
     public List<Task> findAll() {
 
         String sql = """
-                SELECT *
-                FROM tasks
-                ORDER BY id
+                SELECT t.*, u.email AS user_email
+                FROM tasks t
+                LEFT JOIN users u ON t.user_id = u.id
+                ORDER BY t.id
                 """;
 
         return jdbcTemplate.query(sql, taskRowMapper);
@@ -93,9 +101,10 @@ public class JdbcTaskRepository implements TaskRepository {
     public Optional<Task> findById(Long id) {
 
         String sql = """
-            SELECT *
-            FROM tasks
-            WHERE id=?
+            SELECT t.*, u.email AS user_email
+            FROM tasks t
+            LEFT JOIN users u ON t.user_id = u.id
+            WHERE t.id=?
             """;
 
         return jdbcTemplate.query(
@@ -122,25 +131,49 @@ public class JdbcTaskRepository implements TaskRepository {
     public void update(Long id,
                        TaskUpdateRequest request) {
 
-        String sql = """
-            UPDATE tasks
-            SET title=?,
-                description=?,
-                priority=?,
-                status=?,
-                due_date=?
-            WHERE id=?
-            """;
+        if (request.userId() != null) {
+            String sql = """
+                UPDATE tasks
+                SET title=?,
+                    description=?,
+                    priority=?,
+                    status=?,
+                    due_date=?,
+                    user_id=?
+                WHERE id=?
+                """;
 
-        jdbcTemplate.update(
-                sql,
-                request.title(),
-                request.description(),
-                request.priority().name(),
-                request.status().name(),
-                request.dueDate(),
-                id
-        );
+            jdbcTemplate.update(
+                    sql,
+                    request.title(),
+                    request.description(),
+                    request.priority().name(),
+                    request.status().name(),
+                    request.dueDate(),
+                    request.userId(),
+                    id
+            );
+        } else {
+            String sql = """
+                UPDATE tasks
+                SET title=?,
+                    description=?,
+                    priority=?,
+                    status=?,
+                    due_date=?
+                WHERE id=?
+                """;
+
+            jdbcTemplate.update(
+                    sql,
+                    request.title(),
+                    request.description(),
+                    request.priority().name(),
+                    request.status().name(),
+                    request.dueDate(),
+                    id
+            );
+        }
     }
 
     //find by user
@@ -148,9 +181,11 @@ public class JdbcTaskRepository implements TaskRepository {
     public List<Task> findByUserId(Long userId) {
 
         String sql = """
-            SELECT *
-            FROM tasks
-            WHERE user_id=?
+            SELECT t.*, u.email AS user_email
+            FROM tasks t
+            LEFT JOIN users u ON t.user_id = u.id
+            WHERE t.user_id=?
+            ORDER BY t.id
             """;
 
         return jdbcTemplate.query(
@@ -165,9 +200,11 @@ public class JdbcTaskRepository implements TaskRepository {
     public List<Task> findByStatus(Status status) {
 
         String sql = """
-            SELECT *
-            FROM tasks
-            WHERE status=?
+            SELECT t.*, u.email AS user_email
+            FROM tasks t
+            LEFT JOIN users u ON t.user_id = u.id
+            WHERE t.status=?
+            ORDER BY t.id
             """;
 
         return jdbcTemplate.query(
@@ -182,9 +219,11 @@ public class JdbcTaskRepository implements TaskRepository {
     public List<Task> findByPriority(Priority priority) {
 
         String sql = """
-            SELECT *
-            FROM tasks
-            WHERE priority=?
+            SELECT t.*, u.email AS user_email
+            FROM tasks t
+            LEFT JOIN users u ON t.user_id = u.id
+            WHERE t.priority=?
+            ORDER BY t.id
             """;
 
         return jdbcTemplate.query(
@@ -201,8 +240,10 @@ public class JdbcTaskRepository implements TaskRepository {
         int offset = page * size;
 
         String sql = """
-            SELECT *
-            FROM tasks
+            SELECT t.*, u.email AS user_email
+            FROM tasks t
+            LEFT JOIN users u ON t.user_id = u.id
+            ORDER BY t.id
             LIMIT ?
             OFFSET ?
             """;
@@ -220,10 +261,12 @@ public class JdbcTaskRepository implements TaskRepository {
     public List<Task> searchByTitle(String keyword) {
 
         String sql = """
-            SELECT *
-            FROM tasks
-            WHERE LOWER(title)
+            SELECT t.*, u.email AS user_email
+            FROM tasks t
+            LEFT JOIN users u ON t.user_id = u.id
+            WHERE LOWER(t.title)
             LIKE LOWER(?)
+            ORDER BY t.id
             """;
 
         return jdbcTemplate.query(
@@ -238,9 +281,10 @@ public class JdbcTaskRepository implements TaskRepository {
     public List<Task> sortByDueDate() {
 
         String sql = """
-            SELECT *
-            FROM tasks
-            ORDER BY due_date ASC
+            SELECT t.*, u.email AS user_email
+            FROM tasks t
+            LEFT JOIN users u ON t.user_id = u.id
+            ORDER BY t.due_date ASC
             """;
 
         return jdbcTemplate.query(
@@ -254,10 +298,12 @@ public class JdbcTaskRepository implements TaskRepository {
     public List<Task> findOverdueTasks() {
 
         String sql = """
-            SELECT *
-            FROM tasks
-            WHERE due_date < CURRENT_DATE
-            AND status != 'COMPLETED'
+            SELECT t.*, u.email AS user_email
+            FROM tasks t
+            LEFT JOIN users u ON t.user_id = u.id
+            WHERE t.due_date < CURRENT_DATE
+            AND t.status != 'COMPLETED'
+            ORDER BY t.id
             """;
 
         return jdbcTemplate.query(

@@ -22,6 +22,8 @@ public record TaskUpdateRequest(
         Status status,
 
         @FutureOrPresent(message = "Due date cannot be in the past")
-        LocalDate dueDate
+        LocalDate dueDate,
+
+        Long userId
 ) {
-}
+}

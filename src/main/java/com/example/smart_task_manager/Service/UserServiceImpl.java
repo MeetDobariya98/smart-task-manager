@@ -50,11 +50,7 @@ public class UserServiceImpl implements UserService {
         List<User> users = repository.findAll();
 
         return users.stream()
-                .map(user -> new UserResponse(
-                        user.getId(),
-                        user.getName(),
-                        user.getEmail()
-                ))
+                .map(this::convertToResponse)
                 .toList();
     }
 
@@ -65,6 +61,17 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() ->
                         new UserNotFoundException(
                                 "User with id " + id + " does not exist"));
+
+        return convertToResponse(user);
+    }
+
+    @Override
+    public UserResponse getUserByEmail(String email) {
+
+        User user = repository.findByEmail(email)
+                .orElseThrow(() ->
+                        new UserNotFoundException(
+                                "User with email " + email + " does not exist"));
 
         return convertToResponse(user);
     }
@@ -119,7 +126,9 @@ public class UserServiceImpl implements UserService {
 
                 user.getName(),
 
-                user.getEmail()
+                user.getEmail(),
+
+                user.getRole()
         );
     }
 

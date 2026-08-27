@@ -3,7 +3,6 @@ package com.example.smart_task_manager.Dto;
 import com.example.smart_task_manager.Entity.Priority;
 import com.example.smart_task_manager.Entity.Status;
 
-
 import java.time.LocalDate;
 
 public record TaskResponse(
@@ -18,6 +17,10 @@ public record TaskResponse(
 
         Status status,
 
-        LocalDate dueDate
+        LocalDate dueDate,
+
+        Long userId,
+
+        String userEmail
 ) {
-}
+}
